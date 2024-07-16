@@ -9,6 +9,54 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "mysql"
   url      = env("DATABASE_URL")
+}
+
+model Customers {
+  id                 String               @id @unique @db.Char(36)
+  name               String
+  transcationHeaders TransactionHeaders[]
+}
+
+model Sales {
+  id                 String               @id @unique @db.Char(36)
+  name               String
+  transcationHeaders TransactionHeaders[]
+}
+
+model PaymentMethods {
+  id                 String               @id @unique @db.Char(36)
+  name               String
+  transcationHeaders TransactionHeaders[]
+}
+
+model Products {
+  id                 String               @id @unique @db.Char(36)
+  name               String
+  image_url          String
+  price              Int
+  stock              Int
+  transactionDetails TransactionDetails[]
+}
+
+model TransactionDetails {
+  id                    String             @id @unique @db.Char(36)
+  productId             String
+  products              Products           @relation(fields: [productId], references: [id])
+  transaction_header_id String
+  transaction_headers   TransactionHeaders @relation(fields: [transaction_header_id], references: [id])
+  quantity              Int
+}
+
+model TransactionHeaders {
+  id                  String               @id @unique @db.Char(36)
+  customerId          String
+  customers           Customers            @relation(fields: [customerId], references: [id])
+  salesId             String
+  sales               Sales                @relation(fields: [salesId], references: [id])
+  payment_method_id   String
+  payment_methods     PaymentMethods       @relation(fields: [payment_method_id], references: [id])
+  transaction_date    DateTime
+  transaction_details TransactionDetails[]
 }
