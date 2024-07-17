@@ -14,25 +14,25 @@ datasource db {
 }
 
 model Customers {
-  id                 String               @id @unique @db.Char(36)
+  id                 Int                  @id @default(autoincrement())
   name               String
   transcationHeaders TransactionHeaders[]
 }
 
 model Sales {
-  id                 String               @id @unique @db.Char(36)
+  id                 Int                  @id @default(autoincrement())
   name               String
   transcationHeaders TransactionHeaders[]
 }
 
 model PaymentMethods {
-  id                 String               @id @unique @db.Char(36)
+  id                 Int                  @id @default(autoincrement())
   name               String
   transcationHeaders TransactionHeaders[]
 }
 
 model Products {
-  id                 String               @id @unique @db.Char(36)
+  id                 Int                  @id @default(autoincrement())
   name               String
   image_url          String
   price              Int
@@ -41,22 +41,23 @@ model Products {
 }
 
 model TransactionDetails {
-  id                    String             @id @unique @db.Char(36)
-  productId             String
-  products              Products           @relation(fields: [productId], references: [id])
-  transaction_header_id String
+  id                    Int                @id @default(autoincrement())
+  product_id            Int
+  products              Products           @relation(fields: [product_id], references: [id])
+  transaction_header_id Int
   transaction_headers   TransactionHeaders @relation(fields: [transaction_header_id], references: [id])
   quantity              Int
 }
 
 model TransactionHeaders {
-  id                  String               @id @unique @db.Char(36)
-  customerId          String
-  customers           Customers            @relation(fields: [customerId], references: [id])
-  salesId             String
-  sales               Sales                @relation(fields: [salesId], references: [id])
-  payment_method_id   String
+  id                  Int                  @id @default(autoincrement())
+  customer_id         Int
+  customers           Customers            @relation(fields: [customer_id], references: [id])
+  sales_id            Int?
+  sales               Sales?               @relation(fields: [sales_id], references: [id])
+  payment_method_id   Int
   payment_methods     PaymentMethods       @relation(fields: [payment_method_id], references: [id])
+  notes               String
   transaction_date    DateTime
   transaction_details TransactionDetails[]
 }
