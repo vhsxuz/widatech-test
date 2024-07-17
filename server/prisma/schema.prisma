@@ -57,7 +57,7 @@ model TransactionHeaders {
   sales               Sales?               @relation(fields: [sales_id], references: [id])
   payment_method_id   Int
   payment_methods     PaymentMethods       @relation(fields: [payment_method_id], references: [id])
-  notes               String
+  notes               String?
   transaction_date    DateTime
   transaction_details TransactionDetails[]
 }
