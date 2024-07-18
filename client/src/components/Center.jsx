@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { fetchData } from '../redux/actions';
 import InvoiceCard from './InvoiceCards';
 import { Link } from 'react-router-dom';
+import Chart from './Chart';
 
 const Center = () => {
   const dispatch = useDispatch();
@@ -18,8 +19,7 @@ const Center = () => {
   if (error) return <p>Error: {error}</p>;
 
   return (
-    <div>
-      <h1 className='text-white'>Data</h1>
+    <div className='pt-16 pb-16'>
       <ul>
         {data && data.transactions && data.transactions.map(item => (
           <InvoiceCard key={item.id} id={item.id} clientName={item.customers.name} total={item.total_price} />
@@ -30,6 +30,8 @@ const Center = () => {
           Add New Invoice
         </button>
       </Link>
+
+      <Chart />
     </div>
   )
 }

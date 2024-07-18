@@ -52,3 +52,13 @@ export const addData = (newData) => {
      .catch(error => dispatch(fetchDataFailure(error.message)));
   };
 };
+
+export const fetchRevenue = () => {
+  return dispatch => {
+    dispatch(fetchDataRequest());
+    fetch('http://localhost:8000/api/v1/revenue')
+      .then(response => response.json())
+      .then(data => dispatch(fetchDataSuccess(data)))
+      .catch(error => dispatch(fetchDataFailure(error.message)));
+  };
+};

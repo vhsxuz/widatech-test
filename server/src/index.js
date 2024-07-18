@@ -6,6 +6,7 @@ import cookieParser from 'cookie-parser';
 import createError from 'http-errors';
 
 import transaction_routers from './routes/transaction_router.js';
+import revenue_routers from './routes/revenue_router.js';
 
 
 dotenv.config();
@@ -28,6 +29,7 @@ app.get('/', async (req, res, next) => {
 
 // routers
 app.use("/api/v1/transactions", transaction_routers);
+app.use("/api/v1/revenue", revenue_routers);
 
 app.listen(port, async () => {
   console.log(`[*] Server Running on Port ${port}`);

@@ -10,22 +10,22 @@ const AddInvoice = () => {
       id: 1,
       name: "Bitcoin",
       picture: "https://mzeqikntarkkhvkvmpbn.supabase.co/storage/v1/object/public/Crypto/bitcoin.png",
-      stock: 100,
-      price: 45000
+      stock: 20,
+      price: 10
     },
     {
       id: 2,
       name: "Ethereum",
       picture: "https://mzeqikntarkkhvkvmpbn.supabase.co/storage/v1/object/public/Crypto/etherium.png",
-      stock: 200,
-      price: 3000
+      stock: 20,
+      price: 7
     },
     {
       id: 3,
       name: "Solana",
       picture: "https://mzeqikntarkkhvkvmpbn.supabase.co/storage/v1/object/public/Crypto/solana.png",
-      stock: 50,
-      price: 150
+      stock: 20,
+      price: 5
     }
   ]
   const [formData, setFormData] = useState({
@@ -146,7 +146,7 @@ const AddInvoice = () => {
         </button>
 
         <button
-        className="bg-red-500 hover:opacity-75 ms-4 text-white font-bold py-2 px-4 rounded"
+        className="bg-red-500 hover:opacity-75 text-white font-bold py-2 px-4 rounded"
         type="button"
         onClick={handleBack}
       >
