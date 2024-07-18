@@ -4,6 +4,7 @@ import Header from './components/Header'
 import { AnimatePresence } from 'framer-motion';
 import { Routes, Route, useLocation } from 'react-router-dom';
 import InvoiceInfo from './components/InvoiceInfo';
+import AddInvoice from './components/AddInvoice';
 
 
 function App() {
@@ -17,6 +18,7 @@ function App() {
         <Routes location={location} key={location.pathname}>
           < Route element={<Center />} path='/' />
           < Route element={<InvoiceInfo />} path='/invoice' />
+          < Route element={<AddInvoice />} path='/add-invoice' />
         </Routes>
       </AnimatePresence>
 

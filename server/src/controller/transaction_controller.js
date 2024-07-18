@@ -99,21 +99,32 @@ export const createNewTransaction = async (req, res, next) => {
   try {
     const capitalizedCustomerName = capitalizeName(customer_name);
 
-    const customer = await prisma.customers.findFirst({ where: { name: capitalizedCustomerName } });
-    const customerId = customer? customer.id : await prisma.customers.create({ data: { name: capitalizedCustomerName } }).then((customer) => customer.id);
+    // Find or create customer
+    let customer = await prisma.customers.findFirst({ where: { name: capitalizedCustomerName } });
+    if (!customer) {
+      customer = await prisma.customers.create({ data: { name: capitalizedCustomerName } });
+    }
+
+    const customerId = customer.id;
 
     const capitalizedSalesName = capitalizeName(sales_name);
 
-    const sales = await prisma.sales.findFirst({ where: { name: capitalizedSalesName } });
-    const salesId = sales? sales.id : await prisma.sales.create({ data: { name: capitalizedSalesName } }).then((sales) => sales.id);
+    // Find or create sales
+    let sales = await prisma.sales.findFirst({ where: { name: capitalizedSalesName } });
+    if (!sales) {
+      sales = await prisma.sales.create({ data: { name: capitalizedSalesName } });
+    }
 
+    const salesId = sales.id;
+
+    // Create transaction
     const transaction = await prisma.transactionHeaders.create({
       data: {
         customer_id: customerId,
         sales_id: salesId,
-        payment_method_id,
+        payment_method_id: payment_method_id || null, // Handle undefined payment_method_id
         notes: notes || null,
-        transaction_date: new Date()
+        transaction_date: new Date(),
       },
     });
 

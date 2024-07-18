@@ -31,8 +31,24 @@ export const fetchDataById = (id) => {
   return dispatch => {
     dispatch(fetchDataRequest());
     fetch(`http://localhost:8000/api/v1/transactions/${id}`)
-      .then(response => response.json())
-      .then(data => dispatch(fetchDataSuccess(data)))
-      .catch(error => dispatch(fetchDataFailure(error.message)));
+    .then(response => response.json())
+    .then(data => dispatch(fetchDataSuccess(data)))
+    .catch(error => dispatch(fetchDataFailure(error.message)));
+  };
+};
+
+export const addData = (newData) => {
+  return dispatch => {
+    dispatch(fetchDataRequest());
+    fetch('http://localhost:8000/api/v1/transactions', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(newData)
+    })
+     .then(response => response.json())
+     .then(data => dispatch(fetchDataSuccess(data)))
+     .catch(error => dispatch(fetchDataFailure(error.message)));
   };
 };

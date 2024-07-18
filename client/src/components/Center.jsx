@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchData } from '../redux/actions';
 import InvoiceCard from './InvoiceCards';
+import { Link } from 'react-router-dom';
 
 const Center = () => {
   const dispatch = useDispatch();
@@ -24,6 +25,11 @@ const Center = () => {
           <InvoiceCard key={item.id} id={item.id} clientName={item.customers.name} total={item.total_price} />
         ))}
       </ul>
+      <Link to="/add-invoice">
+        <button className="bg-teal-500 hover:opacity-70 text-white font-bold ms-32 mt-16 py-2 px-4 rounded">
+          Add New Invoice
+        </button>
+      </Link>
     </div>
   )
 }
