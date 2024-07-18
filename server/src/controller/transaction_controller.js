@@ -19,13 +19,33 @@ const capitalizeName = (name) => {
   return name.split(' ').map((word) => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
 };
 
+const countTotal = (item) => {
+  let total = 0;
+  for (const details of item.transaction_details) {
+    total += details.quantity * details.products.price;
+  }
+  return total;
+};
+
 export const getAllTransactions = async (req, res, next) => {
   try {
     const transactions = await prisma.transactionHeaders.findMany(includeOptions);
+
+    const formattedTransactions = transactions.map((transaction) => {
+      const total = transaction.transaction_details.reduce((acc, detail) => {
+        return acc + detail.quantity * detail.products.price;
+      }, 0);
+
+      return {
+       ...transaction,
+        total_price: total,
+      };
+    });
+
     return res.status(200).json({
       success: true,
-      count: transactions.length,
-      transactions: transactions
+      count: formattedTransactions.length,
+      transactions: formattedTransactions,
     });
   } catch (error) {
     console.error(error);
@@ -38,6 +58,7 @@ export const getAllTransactions = async (req, res, next) => {
 
 export const getTransactionById = async (req, res, next) => {
   const { id } = req.params;
+  console.log(id)
   try {
     const transaction = await prisma.transactionHeaders.findUnique({
       where: {
@@ -51,9 +72,17 @@ export const getTransactionById = async (req, res, next) => {
         message: "Transaction not found"
       });
     }
+
+    const total = transaction.transaction_details.reduce((acc, detail) => {
+      return acc + detail.quantity * detail.products.price;
+    }, 0);
+
     return res.status(200).json({
       success: true,
-      transaction: transaction
+      transaction: {
+        ...transaction,
+        total_price: total,
+      }
     });
   } catch (error) {
     console.error(error);

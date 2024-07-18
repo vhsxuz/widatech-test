@@ -1,16 +1,25 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React from 'react'
+import Center from './components/Center'
+import Header from './components/Header'
+import { AnimatePresence } from 'framer-motion';
+import { Routes, Route, useLocation } from 'react-router-dom';
+import InvoiceInfo from './components/InvoiceInfo';
+
 
 function App() {
-  const [count, setCount] = useState(0)
+  const location = useLocation()
 
   return (
-    <div className="">
-      <div className="text-2xl">
-        Hello World
-      </div>
+    <div className=' dark:bg-[#141625] duration-300 min-h-screen bg-[#f8f8fb]'>
+      <Header />
+
+      <AnimatePresence mode='wait'>
+        <Routes location={location} key={location.pathname}>
+          < Route element={<Center />} path='/' />
+          < Route element={<InvoiceInfo />} path='/invoice' />
+        </Routes>
+      </AnimatePresence>
+
     </div>
   )
 }
